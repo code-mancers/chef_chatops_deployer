@@ -1,11 +1,10 @@
 include_recipe 'chef-vault'
-vault = 'chatops_deployer'
+home = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
 
-begin
-  secrets = chef_vault_item(vault, 'secrets')
-rescue ChefVault::Exceptions::KeysNotFound => e
-  log e.message
-  log 'Cannot read secrets. Check if data bag exists.'
+ruby_block "read secrets" do
+  block do
+    node.run_state['secrets'] = chef_vault_item('chatops_deployer', 'secrets')
+  end
 end
 
 # Install and start docker v1.9.0
@@ -16,10 +15,12 @@ end
 
 # Create ~/.netrc with github oauth token of bot user
 # This is for cloning repos without needing to use passwords
-template "~/.netrc" do
+template "#{home}/.netrc" do
   source 'netrc.erb'
-  variables(
-    :github_bot_oauth_token => secrets['github_bot_oauth_token']
-  )
+  variables(lazy {
+    {
+      github_bot_oauth_token: node.run_state['secrets']['github_bot_oauth_token']
+    }
+  })
   action :create
 end
