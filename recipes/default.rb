@@ -24,3 +24,10 @@ template "#{home}/.netrc" do
   })
   action :create
 end
+
+# Create ~/.ssh/config with entry for github.com so that
+# prompt for adding github.com to known_hosts is supressed.
+template "#{home}/.ssh/config" do
+  source 'ssh_config.erb'
+  action :create
+end
