@@ -1,0 +1,20 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  clients_path: test/fixtures/clients
+  data_bags_path: test/fixtures/data_bags
+  client_rb:
+    node_name: admin
+    client_key: /tmp/kitchen/clients/admin.pem
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[test::default]
+    attributes:
