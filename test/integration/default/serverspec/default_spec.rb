@@ -59,6 +59,6 @@ describe 'Default recipe' do
   end
 
   describe command('supervisorctl status') do
-    its(:stdout) { should match /chatops_deployer\s*RUNNING/ }
+    its(:stdout) { should match /docker_auto_build\s*RUNNING/ }
   end
 end
