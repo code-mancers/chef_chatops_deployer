@@ -14,6 +14,6 @@ default['chatops_deployer']['app']['log_url'] = 'ip.xip.io:9001'
 default['chatops_deployer']['deployer_host'] = 'ip.xip.io'
 
 # Directory where docker_auto_build app will be cloned
-default['chatops_deployer']['docker_auto_build']['path'] = '/usr/lib/chatops_deployer'
+default['chatops_deployer']['docker_auto_build']['path'] = '/usr/lib/docker_auto_build'
 # Port on which docker_auto_build app listens
 default['chatops_deployer']['docker_auto_build']['port'] = '8001'
