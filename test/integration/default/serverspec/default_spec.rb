@@ -45,4 +45,8 @@ describe 'Default recipe' do
   describe command('supervisorctl status') do
     its(:stdout) { should match /chatops_deployer\s*RUNNING/ }
   end
+
+  describe command('docker-compose -v') do
+    its(:stdout) { should match /docker-compose version 1.5.2/ }
+  end
 end

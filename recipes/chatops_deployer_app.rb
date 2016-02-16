@@ -1,5 +1,14 @@
 home = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
 
+package 'curl'
+bash 'Install docker-compose' do
+  code <<-EOH
+    curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+    EOH
+  not_if { ::File.exists?('/usr/local/bin/docker-compose') }
+end
+
 # Clone chatops_deployer
 git node['chatops_deployer']['app']['path'] do
   repository "https://github.com/code-mancers/chatops_deployer.git"
