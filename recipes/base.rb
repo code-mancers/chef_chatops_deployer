@@ -1,4 +1,6 @@
 include_recipe 'chef-vault'
+include_recipe 'apt'
+include_recipe 'build-essential'
 home = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
 
 ruby_block "read secrets" do
@@ -37,6 +39,12 @@ include_recipe "supervisor"
 
 # Install ruby 2.2
 include_recipe 'ruby-ng'
+
+# Install ruby headers for compiling native extensions
+execute "Ruby dev headers" do
+  command "apt-get -y install ruby2.2-dev"
+end
+
 
 # Add /etc/hosts entry for dockerhub
 hostsfile_entry node['chatops_deployer']['private_docker_registry']['ip'] do

@@ -33,4 +33,16 @@ describe 'Default recipe' do
   describe command("cd /usr/lib/chatops_deployer && git show --name-only") do
     its(:stdout) { should match /9706fdc0368fe765696a89211366d44f30b0ed9d/ }
   end
+
+  describe file("/usr/lib/chatops_deployer/exe/chatops_deployer.supervisor") do
+    it { should contain "ENV['DEPLOYER_HOST'] = 'ip.xip.io'" }
+    it { should contain "ENV['GITHUB_WEBHOOK_SECRET'] = 'fake_gh_webhook_secret'" }
+    it { should contain "ENV['GITHUB_OAUTH_TOKEN'] = 'fake_gh_oauth_token'" }
+    it { should contain "ENV['DEPLOYER_LOG_URL'] = 'ip.xip.io:9001'" }
+    it { should contain "require 'chatops_deployer/app.rb'" }
+  end
+
+  describe command('supervisorctl status') do
+    its(:stdout) { should match /chatops_deployer\s*RUNNING/ }
+  end
 end

@@ -18,3 +18,17 @@ template "#{node['chatops_deployer']['app']['path']}/exe/chatops_deployer.superv
   })
   action :create
 end
+
+execute "Run bundle install in chatops_deployer" do
+  command "cd #{node['chatops_deployer']['app']['path']} && bundle install"
+end
+
+supervisor_service "chatops_deployer" do
+  action [:enable, :start]
+  command "/usr/bin/ruby #{node['chatops_deployer']['app']['path']}/exe/chatops_deployer.supervisor"
+  directory node['chatops_deployer']['app']['path']
+  autorestart true
+  stdout_logfile "#{node['chatops_deployer']['app']['path']}/out.log"
+  stdout_logfile_maxbytes "5MB"
+  redirect_stderr true
+end
