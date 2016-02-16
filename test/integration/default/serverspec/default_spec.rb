@@ -50,6 +50,10 @@ describe 'Default recipe' do
     its(:stdout) { should match /chatops_deployer\s*RUNNING/ }
   end
 
+  describe command("cd /usr/lib/docker_auto_build && git show --name-only") do
+    its(:stdout) { should match /cf7cc061955e4e5a59353ffd84c197abb8e2c554/ }
+  end
+
   describe file("/usr/lib/docker_auto_build/exe/docker_auto_build.supervisor") do
     it { should contain "ENV['PORT'] = '8001'" }
     it { should contain "ENV['DOCKER_REGISTRY_HOST'] = 'my.dockerhub:5000'" }
