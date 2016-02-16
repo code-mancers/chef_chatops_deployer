@@ -30,7 +30,7 @@ describe 'Default recipe' do
     its(:stdout) { should match /Docker version 1.9.0/ }
   end
 
-  describe command("cd /home/vagrant/chatops_deployer && git show --name-only") do
+  describe command("cd /usr/lib/chatops_deployer && git show --name-only") do
     its(:stdout) { should match /9706fdc0368fe765696a89211366d44f30b0ed9d/ }
   end
 end

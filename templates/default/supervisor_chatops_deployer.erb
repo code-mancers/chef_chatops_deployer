@@ -1,0 +1,11 @@
+[program:chatops_deployer]
+command=/usr/bin/ruby <%= node['chatops_deployer']['app']['path'] %>/exe/chatops_deployer.supervisor
+directory=<%= node['chatops_deployer']['app']['path'] %>
+autostart=true
+autorestart=true
+startretries=3
+stdout_logfile=<%= node['chatops_deployer']['app']['path'] %>/out.log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=10
+redirect_stderr=true
+stopsignal=TERM

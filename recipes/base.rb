@@ -33,12 +33,7 @@ template "#{home}/.ssh/config" do
 end
 
 # Install supervisor to manage processes
-package "supervisor"
-# Start supervisor service and enable it on boot
-service "supervisor" do
-  supports :status => true, :start => true, :stop => true, :restart => true
-  action [ :enable, :start ]
-end
+include_recipe "supervisor"
 
 # Install ruby 2.2
 include_recipe 'ruby-ng'
