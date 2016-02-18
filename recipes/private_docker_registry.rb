@@ -13,7 +13,7 @@ port = node['chatops_deployer']['private_docker_registry']['port']
 end
 
 execute "Set username and password of docker registry login" do
-  command "cd #{dir} && docker run --entrypoint htpasswd registry:2 -Bbn #{node.run_state['secrets']['private_docker_registry_username']} #{node.run_state['secrets']['private_docker_registry_password']} > auth/htpasswd" do
+  command lazy { "cd #{dir} && docker run --entrypoint htpasswd registry:2 -Bbn #{node.run_state['secrets']['private_docker_registry_username']} #{node.run_state['secrets']['private_docker_registry_password']} > auth/htpasswd" }
   not_if { ::File.exists?("#{dir}/auth/htpasswd") }
 end
 
@@ -29,24 +29,9 @@ openssl_x509 "#{dir}/certs/domain.crt" do
 end
 
 file "/etc/docker/certs.d/#{hostname}:#{port}/ca.crt" do
-  content IO.read("#{dir}/certs/domain.crt")
+  content lazy { IO.read("#{dir}/certs/domain.crt") }
   action :create
 end
-
-#file "/etc/docker/certs.d/#{hostname}:#{port}/ca.crt" do
-  #content node.run_state['secrets']['private_docker_registry_crt']
-  #action :create_if_missing
-#end
-
-#file "#{dir}/certs/domain.crt" do
-  #content node.run_state['secrets']['private_docker_registry_crt']
-  #action :create_if_missing
-#end
-
-#file "#{dir}/certs/domain.key" do
-  #content node.run_state['secrets']['private_docker_registry_key']
-  #action :create_if_missing
-#end
 
 service 'docker' do
   action :restart
@@ -61,9 +46,7 @@ execute "Start docker registry" do
   command "cd #{dir} && docker-compose up -d"
 end
 
-docker_registry 'Login to private registry' do
-   serveraddress "https://#{hostname}:#{port}/"
-   username node.run_state['secrets']['private_docker_registry_username']
-   password node.run_state['secrets']['private_docker_registry_password']
-   email 'test@example.com'
+execute "Login to private registry first" do
+  command lazy { "docker login -u #{node.run_state['secrets']['private_docker_registry_username']} -p #{node.run_state['secrets']['private_docker_registry_password']} -e test@example.com #{hostname}:#{port}" }
+  retries 5
 end
