@@ -88,4 +88,9 @@ describe 'Default recipe' do
       its(:stdout) { should match /hubot\s*RUNNING/ }
     end
   end
+
+  describe command('docker tag -f tianon/true:latest my.dockerhub:5000/new:tag && docker push my.dockerhub:5000/new:tag && docker pull my.dockerhub:5000/new:tag') do
+    its(:stdout) { should match /tag: Pulling from new/ }
+    its(:stdout) { should match /Image is up to date/ }
+  end
 end
