@@ -1,3 +1,4 @@
+# Ruby version
 default['ruby-ng']['ruby_version'] = '2.2'
 
 # Assumes your private docker registry is referenced using my.dockerhub host
@@ -17,3 +18,20 @@ default['chatops_deployer']['deployer_host'] = 'ip.xip.io'
 default['chatops_deployer']['docker_auto_build']['path'] = '/usr/lib/docker_auto_build'
 # Port on which docker_auto_build app listens
 default['chatops_deployer']['docker_auto_build']['port'] = '8001'
+
+default['chatops_deployer']['hubot']['path'] = '/usr/lib/hubot'
+default['chatops_deployer']['hubot']['adapter'] = 'hipchat' # or 'slack'
+default['chatops_deployer']['hubot']['name'] = 'fred' # Name of your hubot bot
+default['chatops_deployer']['hubot']['env'] = {
+  # If using slack, set this as a node attribute or as a secret:
+  #"HUBOT_SLACK_TOKEN" => "",  # Should be set using chef-vault as chatops_deployer => secrets => hubot_env => HUBOT_SLACK_TOKEN => value
+
+  # If using hipchat, set this as node attributes or as secrets using chef-vault:
+  #"HUBOT_HIPCHAT_JID" => "",  # Should be set using chef-vault as chatops_deployer => secrets => hubot_env => HUBOT_HIPCHAT_JID => value
+  #"HUBOT_HIPCHAT_PASSWORD" => "",  # Should be set using chef-vault as chatops_deployer => secrets => hubot_env => HUBOT_HIPCHAT_PASSWORD => value
+  "HUBOT_HIPCHAT_JOIN_PUBLIC_ROOMS" => "false",
+
+  "PORT" => "8080",
+  "DEPLOYER_URL" => "http://127.0.0.1:8000",
+  "HUBOT_URL" => "http://127.0.0.1:8080"
+}

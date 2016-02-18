@@ -1,4 +1,3 @@
-# Clone chatops_deployer
 git node['chatops_deployer']['docker_auto_build']['path'] do
   repository "https://github.com/code-mancers/docker_auto_build.git"
   revision "cf7cc061955e4e5a59353ffd84c197abb8e2c554"
