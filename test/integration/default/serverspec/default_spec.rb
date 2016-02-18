@@ -30,6 +30,10 @@ describe 'Default recipe' do
     its(:stdout) { should match /Docker version 1.9.0/ }
   end
 
+  describe command('docker-compose -v') do
+    its(:stdout) { should match /docker-compose version 1.5.2/ }
+  end
+
   describe command("cd /usr/lib/chatops_deployer && git show --name-only") do
     its(:stdout) { should match /9706fdc0368fe765696a89211366d44f30b0ed9d/ }
   end
@@ -46,7 +50,19 @@ describe 'Default recipe' do
     its(:stdout) { should match /chatops_deployer\s*RUNNING/ }
   end
 
-  describe command('docker-compose -v') do
-    its(:stdout) { should match /docker-compose version 1.5.2/ }
+  describe command("cd /usr/lib/docker_auto_build && git show --name-only") do
+    its(:stdout) { should match /cf7cc061955e4e5a59353ffd84c197abb8e2c554/ }
+  end
+
+  describe file("/usr/lib/docker_auto_build/exe/docker_auto_build.supervisor") do
+    it { should contain "ENV['PORT'] = '8001'" }
+    it { should contain "ENV['DOCKER_REGISTRY_HOST'] = 'my.dockerhub:5000'" }
+    it { should contain "ENV['GITHUB_WEBHOOK_SECRET'] = 'fake_gh_webhook_secret'" }
+    it { should contain "ENV['GITHUB_OAUTH_TOKEN'] = 'fake_gh_oauth_token'" }
+    it { should contain "require 'docker_auto_build/app.rb'" }
+  end
+
+  describe command('supervisorctl status') do
+    its(:stdout) { should match /docker_auto_build\s*RUNNING/ }
   end
 end

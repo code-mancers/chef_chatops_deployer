@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+ENV['PORT'] = '<%= node['chatops_deployer']['docker_auto_build']['port'] %>'
+ENV['DOCKER_REGISTRY_HOST'] = '<%= node['chatops_deployer']['private_docker_registry']['hostname'] %>:<%= node['chatops_deployer']['private_docker_registry']['port'] %>'
+ENV['GITHUB_WEBHOOK_SECRET'] = '<%= @github_webhook_secret %>'
+ENV['GITHUB_OAUTH_TOKEN'] = '<%= @github_bot_oauth_token %>'
+
+begin
+  require 'docker_auto_build/app.rb'
+rescue LoadError => e
+  require 'rubygems'
+  path = File.expand_path '../../lib', __FILE__
+  $:.unshift(path) if File.directory?(path) && !$:.include?(path)
+  require 'docker_auto_build/app.rb'
+end
