@@ -5,14 +5,6 @@ set -e
 <% @env.each do |key, value| %>
 export <%= key %>=<%= value %>
 <% end %>
-#export HUBOT_SLACK_TOKEN=<%= slack_token %>
-#export HUBOT_HIPCHAT_JID=<%= hipchat_jid %>
-#export HUBOT_HIPCHAT_PASSWORD=<%= hipchat_password %>
-#export HUBOT_HIPCHAT_JOIN_PUBLIC_ROOMS=false
-#export PORT=8080
-#
-#export DEPLOYER_URL=http://127.0.0.1:8000
-#export HUBOT_URL=http://127.0.0.1:8080
 
 npm install
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"

@@ -58,3 +58,4 @@ execute "Increase async IO limit in OS" do
 end
 
 package "git"
+include_recipe 'nodejs'
