@@ -1,20 +1,40 @@
-include HubotHelpers
-# Hubot attributes
-node.set['hubot']['name'] = node['chatops_deployer']['hubot']['name']
-node.set['hubot']['install_dir'] = node['chatops_deployer']['hubot']['path']
-node.set['hubot']['daemon'] = 'supervisor'
-node.set['hubot']['dependencies'] = npm_dependencies(node['chatops_deployer']['hubot']['adapter'], node['chatops_deployer']['hubot']['external_scripts'])
-node.set['hubot']['external_scripts'] = node['chatops_deployer']['hubot']['external_scripts'].keys
-
-ruby_block "Set hubot environment vars" do
-  node.set['hubot']['config'] = hubot_env(node['chatops_deployer']['hubot']['adapter'], node.run_state['secrets'], node['chatops_deployer']['hubot']['config'])
+template "#{node['chatops_deployer']['hubot']['path']}/bin/hubot.supervisor" do
+  source 'hubot_starter_script.erb'
+  variables(lazy {
+    {
+      name: node['chatops_deployer']['hubot']['name'],
+      adapter: node['chatops_deployer']['hubot']['adapter'],
+      env: node.run_state['secrets']['hubot_env'].merge(node['chatops_deployer']['hubot']['env'])
+    }
+  })
+  action :create_if_missing
 end
 
-# OS packages required by assorted Hubot scripts
-%w{ libexpat1 libexpat1-dev libicu-dev }.each do |pkg|
-  package pkg do
-    action :install
-  end
+template "#{node['chatops_deployer']['hubot']['path']}/package.json" do
+  source 'hubot_package_json.erb'
+  variables(lazy {
+    {
+      adapter: node['chatops_deployer']['hubot']['adapter']
+    }
+  })
+  action :create_if_missing
 end
 
-include_recipe "hubot"
+file "#{node['chatops_deployer']['hubot']['path']}/external-scripts.json" do
+  content "['hubot-chatops', 'hubot-help']"
+  action :create_if_missing
+end
+
+execute "Run npm install in hubot" do
+  command "cd #{node['chatops_deployer']['hubot']['path']} && npm install"
+end
+
+supervisor_service "hubot" do
+  action [:enable, :start]
+  command "#{node['chatops_deployer']['hubot']['path']}/bin/hubot.supervisor"
+  directory node['chatops_deployer']['hubot']['path']
+  autorestart true
+  stdout_logfile "#{node['chatops_deployer']['hubot']['path']}/out.log"
+  stdout_logfile_maxbytes "5MB"
+  redirect_stderr true
+end
