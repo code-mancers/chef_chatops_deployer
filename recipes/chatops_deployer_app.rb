@@ -37,3 +37,17 @@ supervisor_service "chatops_deployer" do
   stdout_logfile_maxbytes "5MB"
   redirect_stderr true
 end
+
+file "/var/log/chatops_deployer.log" do
+  content ""
+end
+
+execute "Install frontail" do
+  command "npm install -g frontail"
+end
+
+supervisor_service "frontail" do
+  action [:enable, :start]
+  command "frontail /var/log/chatops_deployer.log"
+  autorestart true
+end
