@@ -35,3 +35,5 @@ default['chatops_deployer']['hubot']['env'] = {
   "DEPLOYER_URL" => "http://127.0.0.1:8000",
   "HUBOT_URL" => "http://127.0.0.1:8080"
 }
+
+default['chatops_deployer']['private_docker_registry']['path'] = '/usr/lib/docker-registry'

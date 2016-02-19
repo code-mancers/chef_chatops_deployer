@@ -9,7 +9,9 @@ chef_vault_secret 'secrets' do
       'HUBOT_HIPCHAT_JID' => 'fake_hipchat_jid',
       'HUBOT_HIPCHAT_PASSWORD' => 'fake_hipchat_password',
       'OTHER_ENV' => 'secret',
-    }
+    },
+    'private_docker_registry_username' => 'fake_username',
+    'private_docker_registry_password' => 'fake_password'
   )
   admins 'admin'
   clients 'admin'
