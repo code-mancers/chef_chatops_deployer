@@ -21,7 +21,7 @@ template "#{node['chatops_deployer']['hubot']['path']}/package.json" do
 end
 
 file "#{node['chatops_deployer']['hubot']['path']}/external-scripts.json" do
-  content "['hubot-chatops', 'hubot-help']"
+  content '["hubot-chatops","hubot-help"]'
   action :create_if_missing
 end
 
