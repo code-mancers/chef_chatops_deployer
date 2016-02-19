@@ -12,7 +12,7 @@ default['chatops_deployer']['vault'] = 'changeme'
 # Directory where chatops_deployer app will be cloned
 default['chatops_deployer']['app']['path'] = '/usr/lib/chatops_deployer'
 # URL where frontail exposes the logs
-default['chatops_deployer']['app']['log_url'] = "#{node['chatops_deployer']['ipaddress']}.xip.io:9001"
+default['chatops_deployer']['app']['log_url'] = "http://#{node['chatops_deployer']['ipaddress']}.xip.io:9001"
 # Hostname of chatops deployer
 default['chatops_deployer']['deployer_host'] = "#{node['chatops_deployer']['ipaddress']}.xip.io"
 
