@@ -5,7 +5,7 @@ home = Dir.respond_to?(:home) ? Dir.home : ENV['HOME']
 
 ruby_block "read secrets" do
   block do
-    node.run_state['secrets'] = chef_vault_item('chatops_deployer', 'secrets')
+    node.run_state['secrets'] = chef_vault_item(node['chatops_deployer']['vault'], 'secrets')
   end
 end
 

@@ -1,7 +1,7 @@
 include_recipe 'chef-vault'
 
 chef_vault_secret 'secrets' do
-  data_bag 'chatops_deployer'
+  data_bag 'myvault'
   raw_data(
     'github_bot_oauth_token' => 'fake_gh_oauth_token',
     'github_webhook_secret' => 'fake_gh_webhook_secret',
@@ -16,5 +16,7 @@ chef_vault_secret 'secrets' do
   admins 'admin'
   clients 'admin'
 end
+
+node.set['chatops_deployer']['vault'] = 'myvault'
 
 include_recipe 'chatops_deployer'

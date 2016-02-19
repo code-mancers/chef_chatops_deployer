@@ -13,17 +13,14 @@ This cookbooks automates the set up of the following apps on an Ubuntu box:
 This cookbook needs the following node attributes:
 
 ```
+node['chatops_deployer']['vault'] = '<chef-vault name in which secrets are stored>'
 node['chatops_deployer']['hubot']['adapter'] = 'hipchat' # Or "slack" for example
 node['chatops_deployer']['hubot']['name'] = '<hubot's name>'
 ```
 
-Also, set the following secrets using chef-vault :
+Also, set the following secrets using chef-vault under the vault name specified above:
 
 ```
-#vault
-chatops_deployer
-
-#item
 {
   secrets: {
     github_bot_oauth_token: 'fake_gh_oauth_token', # Oauth token of github bot user

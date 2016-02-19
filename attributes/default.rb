@@ -7,6 +7,7 @@ default['chatops_deployer']['private_docker_registry']['ip'] = '127.0.0.1'
 default['chatops_deployer']['private_docker_registry']['hostname'] = 'my.dockerhub'
 default['chatops_deployer']['private_docker_registry']['port'] = '5000'
 default['chatops_deployer']['ipaddress'] = node['ipaddress']
+default['chatops_deployer']['vault'] = 'changeme'
 
 # Directory where chatops_deployer app will be cloned
 default['chatops_deployer']['app']['path'] = '/usr/lib/chatops_deployer'
