@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'Default recipe' do
+  let!(:ip) { `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`.strip }
   describe "base recipe" do
     describe file("/home/vagrant/.netrc") do
       it { should contain 'machine github.com login fake_gh_oauth_token password' }
@@ -47,10 +48,10 @@ describe 'Default recipe' do
     end
 
     describe file("/usr/lib/chatops_deployer/exe/chatops_deployer.supervisor") do
-      it { should contain "ENV['DEPLOYER_HOST'] = 'ip.xip.io'" }
+      it { should contain "ENV['DEPLOYER_HOST'] = '#{ip}.xip.io'" }
       it { should contain "ENV['GITHUB_WEBHOOK_SECRET'] = 'fake_gh_webhook_secret'" }
       it { should contain "ENV['GITHUB_OAUTH_TOKEN'] = 'fake_gh_oauth_token'" }
-      it { should contain "ENV['DEPLOYER_LOG_URL'] = 'ip.xip.io:9001'" }
+      it { should contain "ENV['DEPLOYER_LOG_URL'] = '#{ip}.xip.io'" }
       it { should contain "require 'chatops_deployer/app.rb'" }
     end
 
