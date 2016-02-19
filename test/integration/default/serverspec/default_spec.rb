@@ -52,6 +52,16 @@ describe 'Default recipe' do
     describe command('supervisorctl status') do
       its(:stdout) { should match /chatops_deployer\s*RUNNING/ }
     end
+
+    describe 'frontail service' do
+      describe command('supervisorctl status') do
+        its(:stdout) { should match /frontail\s*RUNNING/ }
+      end
+
+      describe command('curl http://127.0.0.1:9001') do
+        its(:stdout) { should match /<title>tail -F \/var\/log\/chatops_deployer.log<\/title>/ }
+      end
+    end
   end
 
   describe 'docker_auto_build app recipe' do
