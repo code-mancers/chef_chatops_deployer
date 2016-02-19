@@ -1,3 +1,8 @@
+package 'nginx'
+service 'nginx' do
+  action [ :enable, :start ]
+end
+
 package 'curl'
 bash 'Install docker-compose' do
   code <<-EOH

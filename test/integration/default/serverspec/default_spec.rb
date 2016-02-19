@@ -15,6 +15,11 @@ describe 'Default recipe' do
       it { should be_enabled }
     end
 
+    describe service('nginx') do
+      it { should be_running }
+      it { should be_enabled }
+    end
+
     describe command("ruby -v") do
       its(:stdout) { should match /ruby 2.2/ }
     end
