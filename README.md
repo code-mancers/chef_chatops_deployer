@@ -44,8 +44,10 @@ Also, set the following secrets using chef-vault under the vault name specified 
 To see a list of all other attributes which can be overridden and their default
 values, please see the file `attributes/default.rb`
 
-Please see [this wiki](TODO) for step by step instructions to use this
-cookbook to bootstrap a server.
+## Step-by-step instructions
+
+Please see [this wiki](https://github.com/code-mancers/chef_chatops_deployer/wiki/User-manual) for step by step
+instructions for using this cookbook to bootstrap a server.
 
 ## Testing
 
