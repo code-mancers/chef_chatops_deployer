@@ -51,7 +51,7 @@ describe 'Default recipe' do
       it { should contain "ENV['DEPLOYER_HOST'] = '#{ip}.xip.io'" }
       it { should contain "ENV['GITHUB_WEBHOOK_SECRET'] = 'fake_gh_webhook_secret'" }
       it { should contain "ENV['GITHUB_OAUTH_TOKEN'] = 'fake_gh_oauth_token'" }
-      it { should contain "ENV['DEPLOYER_LOG_URL'] = '#{ip}.xip.io'" }
+      it { should contain "ENV['DEPLOYER_LOG_URL'] = 'http://#{ip}.xip.io:9001'" }
       it { should contain "require 'chatops_deployer/app.rb'" }
     end
 
