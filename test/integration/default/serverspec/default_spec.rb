@@ -109,15 +109,19 @@ describe 'Default recipe' do
     its(:stdout) { should match /tag: Pulling from new/ }
     its(:stdout) { should match /Image is up to date/ }
   end
+
   describe 'docker-gc recipe' do
+
     describe file('/usr/sbin/docker-gc') do
       it { should exist }
       it { should be_executable }
     end
+
     describe file('/etc/docker-gc-exclude-containers') do
       it { should exist }
       its(:content) { should match /cache/ }
     end
+
     describe cron do
       it { should have_entry '0 * * * * /usr/sbin/docker-gc' }
     end
