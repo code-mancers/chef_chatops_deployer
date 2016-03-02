@@ -109,7 +109,7 @@ describe 'Default recipe' do
     its(:stdout) { should match /tag: Pulling from new/ }
     its(:stdout) { should match /Image is up to date/ }
   end
-  describe 'docker images clean up recipe' do
+  describe 'docker-gc recipe' do
     describe file('/usr/sbin/docker-gc') do
       it { should exist }
       it { should be_executable }
