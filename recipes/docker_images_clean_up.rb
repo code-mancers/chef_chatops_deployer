@@ -14,11 +14,6 @@ execute "Exclude cache container from being G'C'd" do
   command "echo cache > /etc/docker-gc-exclude-containers"
 end
 
-#template "/etc/cron.hourly/docker-gc" do
- # source "docker_gc_script.erb"
-  #action :create_if_missing
-#end
-#
 cron 'Hourly docker images cleanup' do
   minute '0'
   command '/usr/sbin/docker-gc'
