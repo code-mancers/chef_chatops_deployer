@@ -51,7 +51,7 @@ describe 'Default recipe' do
       it { should contain "ENV['DEPLOYER_HOST'] = '#{ip}.xip.io'" }
       it { should contain "ENV['GITHUB_WEBHOOK_SECRET'] = 'fake_gh_webhook_secret'" }
       it { should contain "ENV['GITHUB_OAUTH_TOKEN'] = 'fake_gh_oauth_token'" }
-      it { should contain "ENV['DEPLOYER_LOG_URL'] = '#{ip}.xip.io'" }
+      it { should contain "ENV['DEPLOYER_LOG_URL'] = 'http://#{ip}.xip.io:9001'" }
       it { should contain "require 'chatops_deployer/app.rb'" }
     end
 
@@ -108,5 +108,22 @@ describe 'Default recipe' do
   describe command('docker tag -f tianon/true:latest my.dockerhub:5000/new:tag && docker push my.dockerhub:5000/new:tag && docker pull my.dockerhub:5000/new:tag') do
     its(:stdout) { should match /tag: Pulling from new/ }
     its(:stdout) { should match /Image is up to date/ }
+  end
+
+  describe 'docker-gc recipe' do
+
+    describe file('/usr/sbin/docker-gc') do
+      it { should exist }
+      it { should be_executable }
+    end
+
+    describe file('/etc/docker-gc-exclude-containers') do
+      it { should exist }
+      its(:content) { should match /cache/ }
+    end
+
+    describe cron do
+      it { should have_entry '0 * * * * /usr/sbin/docker-gc' }
+    end
   end
 end

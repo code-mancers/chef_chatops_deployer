@@ -20,6 +20,8 @@ default['chatops_deployer']['deployer_host'] = "#{node['chatops_deployer']['ipad
 default['chatops_deployer']['docker_auto_build']['path'] = '/usr/lib/docker_auto_build'
 # Port on which docker_auto_build app listens
 default['chatops_deployer']['docker_auto_build']['port'] = '8001'
+# Directory where docker_gc will be cloned
+default['chatops_deployer']['docker-gc']['path'] = '/usr/lib/docker-gc'
 
 default['chatops_deployer']['hubot']['path'] = '/usr/lib/hubot'
 default['chatops_deployer']['hubot']['adapter'] = 'hipchat' # or 'slack'
