@@ -6,7 +6,7 @@ end
 package 'curl'
 bash 'Install docker-compose' do
   code <<-EOH
-    curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     EOH
   not_if { ::File.exists?('/usr/local/bin/docker-compose') }
@@ -15,7 +15,7 @@ end
 # Clone chatops_deployer
 git node['chatops_deployer']['app']['path'] do
   repository "https://github.com/code-mancers/chatops_deployer.git"
-  revision "9706fdc0368fe765696a89211366d44f30b0ed9d"
+  revision "872e7d3a6f4c110e874a32ded0a281427ebacb1f"
 end
 
 template "#{node['chatops_deployer']['app']['path']}/exe/chatops_deployer.supervisor" do
@@ -28,6 +28,8 @@ template "#{node['chatops_deployer']['app']['path']}/exe/chatops_deployer.superv
   })
   action :create
 end
+
+gem_package "bundler"
 
 execute "Run bundle install in chatops_deployer" do
   command "cd #{node['chatops_deployer']['app']['path']} && bundle install"

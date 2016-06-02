@@ -12,7 +12,7 @@ end
 # Install and start docker v1.9.0
 docker_service 'default' do
   install_method 'binary'
-  version '1.9.0'
+  version '1.10.2'
 end
 
 # Create ~/.netrc with github oauth token of bot user
@@ -38,11 +38,12 @@ end
 include_recipe "supervisor"
 
 # Install ruby 2.2
-include_recipe 'ruby-ng'
+include_recipe 'ruby_build'
+ruby_build_ruby "2.3.1"
 
 # Install ruby headers for compiling native extensions
 execute "Ruby dev headers" do
-  command "apt-get -y install ruby2.2-dev"
+  command "apt-get -y install ruby2.3-dev"
 end
 
 
@@ -58,4 +59,4 @@ execute "Increase async IO limit in OS" do
 end
 
 package "git"
-include_recipe 'nodejs'
+include_recipe 'nodejs::npm'

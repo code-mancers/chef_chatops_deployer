@@ -34,17 +34,17 @@ describe 'Default recipe' do
     end
 
     describe command("docker -v") do
-      its(:stdout) { should match /Docker version 1.9.0/ }
+      its(:stdout) { should match /Docker version 1.10.2/ }
     end
 
     describe command('docker-compose -v') do
-      its(:stdout) { should match /docker-compose version 1.5.2/ }
+      its(:stdout) { should match /docker-compose version 1.7.1/ }
     end
   end
 
   describe 'chatops_deployer app recipe' do
     describe command("cd /usr/lib/chatops_deployer && git show --name-only") do
-      its(:stdout) { should match /9706fdc0368fe765696a89211366d44f30b0ed9d/ }
+      its(:stdout) { should match /872e7d3a6f4c110e874a32ded0a281427ebacb1f/ }
     end
 
     describe file("/usr/lib/chatops_deployer/exe/chatops_deployer.supervisor") do
