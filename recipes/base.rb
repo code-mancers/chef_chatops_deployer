@@ -58,5 +58,4 @@ execute "Increase async IO limit in OS" do
   command "sysctl -w fs.aio-max-nr=200000"
 end
 
-package "git"
-include_recipe 'nodejs::npm'
+package ["git", "nodejs-legacy", "npm"]
